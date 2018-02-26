@@ -1,0 +1,4 @@
+C:\Users\Administrator\Desktop\Vs2017Project\Vasily\VasilyTest\obj\Release\netcoreapp2.0\VasilyTest.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\Vs2017Project\Vasily\VasilyTest\obj\Release\netcoreapp2.0\VasilyTest.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\Vs2017Project\Vasily\VasilyTest\obj\Release\netcoreapp2.0\VasilyTest.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\Vs2017Project\Vasily\VasilyTest\obj\Release\netcoreapp2.0\VasilyTest.AssemblyInfo.cs
