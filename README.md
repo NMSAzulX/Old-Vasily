@@ -3,21 +3,28 @@
 ------
 
 - ### 项目背景
+  ​
 
   ​       由于本人工作原因，经常被小工具、小任务、小接口骚扰，因此想封装一个类库方便数据库方面的操作。在经过Mellivora项目过后，对Dapper项目有了一个大致的权衡，Dapper实体类映射的缓存方法的性能已经接近极限，有些地方考虑到不同数据库的实现以及兼容性，Dapper做出了平衡。因此采用Dapper作为底层操作库。
 
   ​
 
+
 - ### 项目介绍
+
+  ### 
 
   ​	该项目主要是针对实体类进行解析，动态生成静态的SQL缓存，方便对Dapper的封装操作。
 
   ​
 
+
+
 - ### 使用简介
 
-  1. #### 实体类标签
-  
+
+  1. #### 实体类标签
+
      - 表名标签 [Table("tablename")]：对实体类进行定义，标识出实体类所属的表。
 
      - 主键标签 [PrimaryKey] / [PrimaryKey(true)]：标识实体类的主键，若参数为true,则主键参与增删改查的各个操作，否则主键只作为WHERE条件出现。
@@ -32,20 +39,22 @@
   2. #### Dapper封装-VasilyDapper<<EntityType>>
 
      - Add、Modify、Get、Delete、IsRepeat五中操作,并支持批量操作。
-     
+
      - Execute、ExecuteScalar常规操作。
-     
+
      - ExecuteCache、GetCache执行/查询缓存字符串操作。
 
   3. #### Http
-  
+
      - 提供基础Controller，封装了VasilyDapper
-     
+
      - 增加了ReturnResult返回结果，方便快速搭建WebApi.
-     
+
      - 支持IServiceCollection扩展方法。
 
        ​
+
+
 
 - ### 项目计划
 
