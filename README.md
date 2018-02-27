@@ -16,7 +16,7 @@
 
 - ### 使用简介
 
-  1. ##### 实体类标签
+  1. #### 实体类标签
 
     - 表名标签 [Table("tablename")]：对实体类进行定义，标识出实体类所属的表。
 
@@ -28,17 +28,21 @@
 
     - 查重标签 [Repeate]：Vasily会将其解析成查重操作的SQL字符串，方便VasilyDapper的查重操作。
 
-     ​
 
-  2. ##### Dapper封装-VasilyDapper<<EntityType>>
+  2. #### Dapper封装-VasilyDapper<<EntityType>>
 
      - Add、Modify、Get、Delete、IsRepeat五中操作,并支持批量操作。
+     
      - Execute、ExecuteScalar常规操作。
+     
      - ExecuteCache、GetCache执行/查询缓存字符串操作。
 
-  3. ##### Http
+  3. #### Http
+  
      - 提供基础Controller，封装了VasilyDapper
+     
      - 增加了ReturnResult返回结果，方便快速搭建WebApi.
+     
      - 支持IServiceCollection扩展方法。
 
        ​
