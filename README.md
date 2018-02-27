@@ -17,16 +17,16 @@
 - ### 使用简介
 
   1. #### 实体类标签
+  
+     - 表名标签 [Table("tablename")]：对实体类进行定义，标识出实体类所属的表。
 
-    - 表名标签 [Table("tablename")]：对实体类进行定义，标识出实体类所属的表。
+     - 主键标签 [PrimaryKey] / [PrimaryKey(true)]：标识实体类的主键，若参数为true,则主键参与增删改查的各个操作，否则主键只作为WHERE条件出现。
 
-    - 主键标签 [PrimaryKey] / [PrimaryKey(true)]：标识实体类的主键，若参数为true,则主键参与增删改查的各个操作，否则主键只作为WHERE条件出现。
+     - 列名标签 [Column("M K")]：数据库列名到实体类列名的映射，M K显然不能作为一个变量存在实体类中，但是它可以在数据库中使用。
 
-    - 列名标签 [Column("M K")]：数据库列名到实体类列名的映射，M K显然不能作为一个变量存在实体类中，但是它可以在数据库中使用。
+     - 忽略标签 [Ignore]：该属性或者共有字段将不参Vasily的初始化解析过程，因此也不会生成到SQL字符串中。
 
-    - 忽略标签 [Ignore]：该属性或者共有字段将不参Vasily的初始化解析过程，因此也不会生成到SQL字符串中。
-
-    - 查重标签 [Repeate]：Vasily会将其解析成查重操作的SQL字符串，方便VasilyDapper的查重操作。
+     - 查重标签 [Repeate]：Vasily会将其解析成查重操作的SQL字符串，方便VasilyDapper的查重操作。
 
 
   2. #### Dapper封装-VasilyDapper<<EntityType>>
