@@ -88,6 +88,13 @@ namespace Vasily.Driver
             return Connection.ExecuteScalar<S>(sql, instance, commandTimeout: commandTimeout);
         }
 
+        /// <summary>
+        /// 执行SQL字符串缓存操作
+        /// </summary>
+        /// <param name="key">SQL字符串缓存的KEY</param>
+        /// <param name="commandTimeout">超时时间</param>
+        /// <param name="instance">需要映射的实例</param>
+        /// <returns>返回影响的行数</returns>
         public int ExecuteCache(string key, int? commandTimeout = null, params object[] instance)
         {
             int result = 0;
@@ -101,6 +108,13 @@ namespace Vasily.Driver
             }
             return result;
         }
+        /// <summary>
+        /// 执行SQL字符串缓存操作
+        /// </summary>
+        /// <param name="key">SQL字符串缓存的KEY</param>
+        /// <param name="parameter">需要映射的实例</param>
+        /// <param name="commandTimeout">超时时间</param>
+        /// <returns>返回集合</returns>
         public IEnumerable<T> GetCache(string key, object parameter, int? commandTimeout = null)
         {
             string sql = VasilyCache.GetFromCache(key);

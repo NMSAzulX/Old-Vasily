@@ -1,7 +1,8 @@
 ﻿using System;
+using Vasily;
 using Vasily.Utils;
 
-namespace Vasily
+namespace System
 {
     public class VasilyService
     {

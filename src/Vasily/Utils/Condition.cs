@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Vasily.Utils
+namespace System
 {
     public class SqlCondition
     {
@@ -76,11 +76,11 @@ namespace Vasily.Utils
             {
                 if ((bool)_ao)
                 {
-                    result = string.Format(" AND {1}{0}@{1}", _operation,property);
+                    result = string.Format(" AND {1}{0}@{1}", _operation, property);
                 }
                 else
                 {
-                    result = string.Format(" AND {1}{0}@{1}", _operation, property);
+                    result = string.Format(" OR {1}{0}@{1}", _operation, property);
                 }
                 _ao = null;
             }
