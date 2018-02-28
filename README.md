@@ -35,6 +35,24 @@
 
      - 查重标签 [Repeate]：Vasily会将其解析成查重操作的SQL字符串，方便VasilyDapper的查重操作。
 
+       ```c#
+       namespace VasilyWebDemo.Entity
+       {
+           [Table("ad_type")]
+           public class AdType : IVasily
+           {
+               [PrimaryKey]
+               public int tid { get; set; }
+
+               [Required(ErrorMessage = "名字不能为空！")]
+               public string name { get; set; }
+               public string description { get; set; }
+           }
+       }
+       ```
+
+       ​
+
 
   2. #### Dapper封装-VasilyDapper<<EntityType>>
 
@@ -44,6 +62,21 @@
 
      - ExecuteCache、GetCache执行/查询缓存字符串操作。
 
+       ```C#
+       VasilyDapper<Entity> sqlHandler = new VasilyDapper<Entity>("KEY");
+
+       Entity entity = new Entity();
+       entity.Name="test";
+       entity.Description = "just for fun";
+
+       sqlHandler.Add(entity);
+       sqlHandler.Delete(entity);
+
+
+       ```
+
+       ​
+
   3. #### Http
 
      - 提供基础Controller，封装了VasilyDapper
@@ -51,6 +84,46 @@
      - 增加了ReturnResult返回结果，方便快速搭建WebApi.
 
      - 支持IServiceCollection扩展方法。
+
+       ```c#
+       return Result(SqlHandler.Get());
+
+       Result:
+       {
+         "msg": null,
+         "data": [
+           {
+             "tid": 4,
+             "name": "首页",
+             "description": "aaaaaaaaaaaa"
+           },
+           {
+             "tid": 5,
+             "name": "首页5",
+             "description": "哈哈哈哈"
+           }
+         ],
+         "status": 0
+       }
+       ```
+
+       ```c#
+       if (ModelState.IsValid)
+       {
+           return Result(SqlHandler.Modify(value));
+       }
+       else
+       {
+            return Result();
+       }
+
+       Result:
+       {
+         "msg": "名字不能为空！",
+         "data": null,
+         "status": 2
+       }
+       ```
 
        ​
 
@@ -63,6 +136,8 @@
    - 将跟随.NET Core2.1特性进行性能修改。
 
    - 进一步封装Sql相关的操作。
+
+   - 支持增加之后自动获取主键ID操作。
 
      ​
 
