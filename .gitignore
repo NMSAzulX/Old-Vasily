@@ -3,3 +3,5 @@
 ################################################################################
 
 /src/VasilyWebDemo/bin/Debug/netcoreapp2.0
+/src/VasilyWebDemo/obj/Debug/netcoreapp2.0
+/src/VasilyWebDemo/obj

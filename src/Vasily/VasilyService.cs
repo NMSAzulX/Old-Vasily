@@ -6,6 +6,11 @@ namespace System
 {
     public class VasilyService
     {
+        /// <summary>
+        /// 增加初始化方法，初始化分隔字符，初始化过滤接口
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public VasilyService AddVasily(Action<VasilyOptions> action = null)
         {
             VasilyOptions options = new VasilyOptions();
@@ -113,7 +118,6 @@ namespace System
 
     public class ConnectionOptions
     {
-
         private string _key;
         /// <summary>
         /// 添加一个缓存的key

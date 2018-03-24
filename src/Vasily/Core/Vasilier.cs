@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
-using System.Threading;
+using System.Threading.Tasks;
 using Vasily.Model;
 using Vasily.Utils;
 
@@ -10,13 +10,13 @@ namespace Vasily
 {
     public static class Vasilier
     {
-        
         /// <summary>
         /// 开局必须调用的函数
         /// </summary>
         /// <param name="interfaceName">如果自己有特殊接口，那么可以写自己的接口名</param>
         public static void Initialize(string interfaceName = "IVasily")
         {
+            List<Type> types = new List<Type>();
             Assembly assmbly = Assembly.GetEntryAssembly();
             if (assmbly == null) { return; }
             IEnumerator<Type> typeCollection = assmbly.ExportedTypes.GetEnumerator();
@@ -28,12 +28,14 @@ namespace Vasily
                 {
                     if (temp_Type.GetInterface(interfaceName) != null)
                     {
-                        SqlAnalyser.Initialization(temp_Type);
+                        types.Add(temp_Type);
                     }
                 }
             }
+            Parallel.ForEach(types, (element) => {
+                SqlAnalyser.Initialization(element);
+            });
         }
-
 
         /// <summary>
         /// 注册SqlConnection
@@ -49,12 +51,21 @@ namespace Vasily
             VasilyCache.ConnectionCache[key] = mapper;
         }
 
+        /// <summary>
+        /// SQL分隔府
+        /// </summary>
+        /// <param name="key">SQL分隔符</param>
         public static void SpilteKeyWords(string key)
         {
             SqlAnalyser._open = new string(new char[] { key[0] }).Trim();
             SqlAnalyser._close = new string(new char[] { key[1] }).Trim();
         }
 
+        /// <summary>
+        /// 通过key获取IDbConnection
+        /// </summary>
+        /// <param name="key">KEY</param>
+        /// <returns></returns>
         public static IDbConnection GetConnection(string key)
         {
             if (VasilyCache.ConnectionCache.ContainsKey(key))

@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.Versioning;
+using System.Text;
 
 #if BIT64
     using nuint = System.UInt64;
@@ -410,6 +411,27 @@ namespace System
                     len -= 1;
                 }
             }
+        }
+    }
+
+    public static class StringBuilderExtention
+    {
+        public static StringBuilder Append(this StringBuilder handler,params string[] parameters)
+        {
+            for (int i = 0; i < parameters.Length; i+=1)
+            {
+                handler.Append(parameters[i]);
+            }
+            return handler;
+        }
+        public static string Contact(params string[] parameters)
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < parameters.Length; i+=1)
+            {
+                builder.Append(parameters[i]);
+            }
+            return builder.ToString();
         }
     }
 }

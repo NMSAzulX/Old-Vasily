@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Vasily.Model;
-using Vasily.Utils;
 
 namespace Vasily.Utils
 {
@@ -186,12 +182,12 @@ namespace Vasily.Utils
         }
         private static void GetSqlString(SqlModel model)
         {
-            EString insertFields = string.Empty;
-            EString insertValues = string.Empty;
-            EString updateFieldAndValues = string.Empty;
-            EString checkRepeate = string.Empty;
-            EString getModelId = string.Empty;
-            string table = EString.Contact(_open, model.Table, _close," ");
+            StringBuilder insertFields = new StringBuilder();
+            StringBuilder insertValues = new StringBuilder();
+            StringBuilder updateFieldAndValues = new StringBuilder();
+            StringBuilder checkRepeate = new StringBuilder();
+            StringBuilder getModelId = new StringBuilder();
+            string table = StringBuilderExtention.Contact(_open, model.Table, _close," ");
             int i = 0;
             int length = model.Struction.Members.Count;
             MemberInfo[] members = model.Struction.Members.ToArray();
@@ -217,36 +213,36 @@ namespace Vasily.Utils
 
             insertFields = insertFields.Remove(0, 1);
             insertValues = insertValues.Remove(0, 1);
-            updateFieldAndValues = updateFieldAndValues.ToString().Remove(0, 1);
+            updateFieldAndValues = updateFieldAndValues.Remove(0, 1);
             if (checkRepeate.ToString().Length > 5)
             {
                 checkRepeate = checkRepeate.Remove(0, 5);
             }
             getModelId = getModelId.Remove(0, 4);
 
-            model.Update = EString.Contact("UPDATE ", table, "SET ", updateFieldAndValues.ToString());
-            model.Select = EString.Contact("SELECT * FROM ", table.Remove(table.Length-1,1));
-            model.Delete = EString.Contact("DELETE FROM ", table);
-            model.Insert = EString.Contact("INSERT INTO ", table, "(", insertFields.ToString(), ") VALUES (", insertValues.ToString(), ")");
+            model.Update = StringBuilderExtention.Contact("UPDATE ", table, "SET ", updateFieldAndValues.ToString());
+            model.Select = StringBuilderExtention.Contact("SELECT * FROM ", table.Remove(table.Length-1,1));
+            model.Delete = StringBuilderExtention.Contact("DELETE FROM ", table);
+            model.Insert = StringBuilderExtention.Contact("INSERT INTO ", table, "(", insertFields.ToString(), ") VALUES (", insertValues.ToString(), ")");
             System.Diagnostics.Debug.WriteLine(model.Update);
-            model.ConditionDelete = EString.Contact(model.Delete,"WHERE ");
-            model.ConditionSelect = EString.Contact(model.Select," WHERE ");
-            model.ConditionUpdate = EString.Contact(model.Update," WHERE ");
+            model.ConditionDelete = StringBuilderExtention.Contact(model.Delete,"WHERE ");
+            model.ConditionSelect = StringBuilderExtention.Contact(model.Select," WHERE ");
+            model.ConditionUpdate = StringBuilderExtention.Contact(model.Update," WHERE ");
 
             model.SelectAll = model.Select;
 
             if (model.PrimaryKey != null)
             {
-                EString byPrimaryKey = string.Empty;
+                StringBuilder byPrimaryKey = new StringBuilder();
                 string realPrimaryKey = model.GetColumnName(model.PrimaryKey);
-                string conditionByPrimaryKey = byPrimaryKey.Append(_open, realPrimaryKey, _close, "=@", model.PrimaryKey);
-                model.GetPrimaryKey = EString.Contact("SELECT ", _open, realPrimaryKey, _close, " FROM ",table, "WHERE", getModelId.ToString());
-                model.Update = EString.Contact(model.ConditionUpdate, conditionByPrimaryKey);
-                model.Select = EString.Contact(model.ConditionSelect, conditionByPrimaryKey);
-                model.Delete = EString.Contact(model.ConditionDelete, conditionByPrimaryKey);
+                string conditionByPrimaryKey = byPrimaryKey.Append(_open, realPrimaryKey, _close, "=@", model.PrimaryKey).ToString();
+                model.GetPrimaryKey = StringBuilderExtention.Contact("SELECT ", _open, realPrimaryKey, _close, " FROM ",table, "WHERE", getModelId.ToString());
+                model.Update = StringBuilderExtention.Contact(model.ConditionUpdate, conditionByPrimaryKey);
+                model.Select = StringBuilderExtention.Contact(model.ConditionSelect, conditionByPrimaryKey);
+                model.Delete = StringBuilderExtention.Contact(model.ConditionDelete, conditionByPrimaryKey);
             }
 
-            model.CheckRepeate = EString.Contact("SELECT COUNT(*) FROM ", table, "WHERE ", checkRepeate.ToString());
+            model.CheckRepeate = StringBuilderExtention.Contact("SELECT COUNT(*) FROM ", table, "WHERE ", checkRepeate.ToString());
         }
 
         private static void GetLogicalList<T>(MemberInfo info, Dictionary<string, List<string>> dict) where T:Attribute, IAttributesLogicalData
