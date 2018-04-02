@@ -54,7 +54,37 @@
        ​
 
 
-  2. #### Dapper封装-VasilyDapper<<EntityType>>
+  2. #### 初始化配置
+
+     ```C#
+      VasilyService service = new VasilyService();
+      service.AddVasily((option) =>
+      {
+          option.SqlSplite = "  ";
+
+      }).AddVasilyConnectionCache((option) =>
+      {
+          option.Key("Mysql").AddConnection<MySqlConnection>("Database=xxx;Data Source=192.168.1.225;User Id=sa;Password=sa;CharSet=utf8;port=3306;SslMode=None;");
+          option.Key("Mssql").AddConnection<SqlConnection>("Data Source=192.168.1.125;Initial Catalog=xxx; uid = sa; pwd = sa; Max Pool Size = 512; ");
+
+      }).AddVasilySqlCache((o) =>
+      {
+          /*o.Key("GetData").SelectConditionCache<Entity>(
+              SqlCondition.EMPTY.EQU("year"),
+              SqlCondition.AND.EQU("is_delete")
+          );*/
+          //select * from table where year=@year and is_delete=@is_delete
+
+          o.Key("GetData").SelectConditionCache<Entity>(
+              SqlCondition.EMPTY.EQU("year"),
+              SqlCondition.AND.EQU("is_delete")
+          );
+      });
+     ```
+
+     ​
+
+  3. #### Dapper封装-VasilyDapper<<EntityType>>
 
      - Add、Modify、Get、Delete、IsRepeat五中操作,并支持批量操作。
 
@@ -71,78 +101,76 @@
 
        sqlHandler.Add(entity);
        sqlHandler.Delete(entity);
-
-
        ```
 
-       ​
 
-  3. #### Http
+4. #### Http
 
-     - 提供基础Controller，封装了VasilyDapper
+- 提供基础Controller，封装了VasilyDapper
 
-     - 增加了ReturnResult返回结果，方便快速搭建WebApi.
+- 增加了ReturnResult返回结果，方便快速搭建WebApi.
 
-     - 支持IServiceCollection扩展方法。
+- 支持IServiceCollection扩展方法。
 
-       ```c#
-       return Result(SqlHandler.Get());
+  ```c#
+  return Result(SqlHandler.Get());
 
-       Result:
-       {
-         "msg": null,
-         "data": [
-           {
-             "tid": 4,
-             "name": "首页",
-             "description": "aaaaaaaaaaaa"
-           },
-           {
-             "tid": 5,
-             "name": "首页5",
-             "description": "哈哈哈哈"
-           }
-         ],
-         "status": 0
-       }
-       ```
+  Result:
+  {
+    "msg": null,
+    "data": [
+      {
+        "tid": 4,
+        "name": "首页",
+        "description": "aaaaaaaaaaaa"
+      },
+      {
+        "tid": 5,
+        "name": "首页5",
+        "description": "哈哈哈哈"
+      }
+    ],
+    "status": 0
+  }
+  ```
 
-       ```c#
-       if (ModelState.IsValid)
-       {
-           return Result(SqlHandler.Modify(value));
-       }
-       else
-       {
-            return Result();
-       }
+  ```c#
+  if (ModelState.IsValid)
+  {
+      return Result(SqlHandler.Modify(value));
+  }
+  else
+  {
+       return Result();
+  }
 
-       Result:
-       {
-         "msg": "名字不能为空！",
-         "data": null,
-         "status": 2
-       }
-       ```
+  Result:
+  {
+    "msg": "名字不能为空！",
+    "data": null,
+    "status": 2
+  }
+  ```
 
-       ​
+  ​
 
 
 
 - ### 项目计划
 
-   - 将支持并发解析操作。
+   - [x] 将支持并发解析操作
 
-   - 将跟随.NET Core2.1特性进行性能修改。
+   - [ ] 将跟随.NET Core2.1特性进行性能修改
 
-   - 进一步封装Sql相关的操作。
+   - [ ] 进一步封装Sql相关的操作
 
-   - 支持增加之后自动获取主键ID操作。
+   - [ ] 支持增加之后自动获取主键ID操作
 
      ​
 
 - ### 更新日志
 
-   - 2018-02-26：正式发布1.0.0版本。
-   - 2018-02-26：发布1.0.1版本，修改部分备注信息，增加单元测试，优化部分逻辑。
-   - 2018-02-27：发布1.0.2版本，修改部分命名空间，修改Nuget标签信息，增加HttpDemo, 完善Github ReadMe文档。
+   - 2018-02-26：正式发布1.0.0版本.
+   - 2018-02-26：发布1.0.1版本，修改部分备注信息，增加单元测试，优化部分逻辑.
+   - 2018-02-27：发布1.0.2版本，修改部分命名空间，修改Nuget标签信息，增加HttpDemo, 完善Github ReadMe文档.
+   - 2018-03-24：支持并发操作，改EString为StringBuilder操作，从而支持Core2.1的性能提升.
